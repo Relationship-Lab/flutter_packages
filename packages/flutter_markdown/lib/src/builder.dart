@@ -32,6 +32,7 @@ const List<String> _kBlockTags = <String>[
   'tbody',
   'tr',
   'section',
+  'customBlock',
 ];
 
 const List<String> _kListTags = <String>['ul', 'ol'];
@@ -390,7 +391,15 @@ class MarkdownBuilder implements md.NodeVisitor {
         child = const SizedBox();
       }
 
-      if (_isListTag(tag)) {
+      if (builders.containsKey(tag)) {
+        child = builders[tag]!.visitElementAfterWithContext(
+          delegate.context,
+          element,
+          styleSheet.styles[tag],
+          null,
+          child,
+        ) ?? const SizedBox();
+      } else if (_isListTag(tag)) {
         assert(_listIndents.isNotEmpty);
         _listIndents.removeLast();
       } else if (tag == 'li') {
@@ -472,6 +481,7 @@ class MarkdownBuilder implements md.NodeVisitor {
           element,
           styleSheet.styles[tag],
           parent.style,
+          null
         );
         if (child != null) {
           if (current.children.isEmpty) {
