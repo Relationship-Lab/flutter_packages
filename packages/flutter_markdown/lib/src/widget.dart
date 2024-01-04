@@ -85,7 +85,7 @@ abstract class MarkdownElementBuilder {
     md.Element element,
     TextStyle? preferredStyle,
     TextStyle? parentStyle,
-    Widget? child,
+    Widget? child
   ) {
     return visitElementAfter(element, preferredStyle);
   }
