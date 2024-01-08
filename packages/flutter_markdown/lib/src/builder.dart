@@ -892,8 +892,8 @@ class MarkdownBuilder implements md.NodeVisitor {
         key: k,
       );
     } else {
-      return RichText(
-        text: text!,
+      return Text.rich(
+        text!,
         // ignore: deprecated_member_use
         textScaleFactor: styleSheet.textScaleFactor!,
         textAlign: textAlign ?? TextAlign.start,
