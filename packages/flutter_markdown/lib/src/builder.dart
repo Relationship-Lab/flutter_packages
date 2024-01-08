@@ -39,11 +39,10 @@ bool _isBlockTag(String? tag) => _kBlockTags.contains(tag);
 bool _isListTag(String tag) => _kListTags.contains(tag);
 
 class _BlockElement {
-  _BlockElement(this.tag, this.styleSheet);
+  _BlockElement(this.tag);
 
   final String? tag;
   final List<Widget> children = <Widget>[];
-  final MarkdownStyleSheet styleSheet;
 
   int nextListIndex = 0;
 }
@@ -198,7 +197,13 @@ class MarkdownBuilder implements md.NodeVisitor {
       }
     });
 
-    _blocks.add(_BlockElement(null, styleSheet));
+    builders.forEach((String key, MarkdownElementBuilder value) {
+      if (value.isBlockElement()) {
+        _kBlockTags.add(key);
+      }
+    });
+
+    _blocks.add(_BlockElement(null));
 
     for (final md.Node node in nodes) {
       assert(_blocks.length == 1);
@@ -253,9 +258,7 @@ class MarkdownBuilder implements md.NodeVisitor {
           children: <Widget>[],
         ));
       }
-
-      final _BlockElement bElement =
-          _BlockElement(tag, _blocks.last.styleSheet.merge(builders[tag]?.buildStylesheet(element, styleSheet)));
+      final _BlockElement bElement = _BlockElement(tag);
       if (start != null) {
         bElement.nextListIndex = start;
       }
@@ -675,7 +678,7 @@ class MarkdownBuilder implements md.NodeVisitor {
     if (_inlines.isEmpty) {
       _inlines.add(_InlineElement(
         tag,
-        style: (_blocks.last.styleSheet ?? styleSheet).styles[tag!],
+        style: styleSheet.styles[tag!],
       ));
     }
   }
@@ -972,9 +975,10 @@ class MarkdownBuilder implements md.NodeVisitor {
         key: k,
       );
     } else {
-      return Text.rich(
-        text!,
-        textScaler: styleSheet.textScaler,
+      return RichText(
+        text: text!,
+        // ignore: deprecated_member_use
+        textScaleFactor: styleSheet.textScaleFactor!,
         textAlign: textAlign ?? TextAlign.start,
         key: k,
       );
