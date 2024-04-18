@@ -11,6 +11,7 @@ class MarkdownStyleSheet {
   MarkdownStyleSheet({
     this.a,
     this.p,
+    this.customBlock,
     this.pPadding,
     this.code,
     this.h1,
@@ -74,6 +75,7 @@ class MarkdownStyleSheet {
         _styles = <String, TextStyle?>{
           'a': a,
           'p': p,
+          'customBlock': customBlock,
           'li': p,
           'code': code,
           'pre': p,
@@ -100,6 +102,7 @@ class MarkdownStyleSheet {
     return MarkdownStyleSheet(
       a: const TextStyle(color: Colors.blue),
       p: theme.textTheme.bodyMedium,
+      customBlock: theme.textTheme.bodyMedium,
       pPadding: EdgeInsets.zero,
       code: theme.textTheme.bodyMedium!.copyWith(
         backgroundColor: theme.cardTheme.color ?? theme.cardColor,
@@ -343,6 +346,7 @@ class MarkdownStyleSheet {
   MarkdownStyleSheet copyWith({
     TextStyle? a,
     TextStyle? p,
+    TextStyle? customBlock,
     EdgeInsets? pPadding,
     TextStyle? code,
     TextStyle? h1,
@@ -407,6 +411,7 @@ class MarkdownStyleSheet {
     return MarkdownStyleSheet(
       a: a ?? this.a,
       p: p ?? this.p,
+      customBlock: customBlock ?? this.customBlock,
       pPadding: pPadding ?? this.pPadding,
       code: code ?? this.code,
       h1: h1 ?? this.h1,
@@ -471,6 +476,7 @@ class MarkdownStyleSheet {
     return copyWith(
       a: a!.merge(other.a),
       p: p!.merge(other.p),
+      customBlock: customBlock!.merge(other.customBlock),
       pPadding: other.pPadding,
       code: code!.merge(other.code),
       h1: h1!.merge(other.h1),
@@ -533,6 +539,9 @@ class MarkdownStyleSheet {
 
   /// The [TextStyle] to use for `p` elements.
   final TextStyle? p;
+
+  /// The [TextStyle] to use for `customBlock` elements.
+  final TextStyle? customBlock;
 
   /// The padding to use for `p` elements.
   final EdgeInsets? pPadding;
@@ -704,6 +713,7 @@ class MarkdownStyleSheet {
     return other is MarkdownStyleSheet &&
         other.a == a &&
         other.p == p &&
+        other.customBlock == customBlock &&
         other.pPadding == pPadding &&
         other.code == code &&
         other.h1 == h1 &&
@@ -761,6 +771,7 @@ class MarkdownStyleSheet {
     return Object.hashAll(<Object?>[
       a,
       p,
+      customBlock,
       pPadding,
       code,
       h1,

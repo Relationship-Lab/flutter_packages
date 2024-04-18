@@ -117,6 +117,8 @@ abstract class MarkdownElementBuilder {
   @Deprecated('Use visitElementAfterWithContext() instead.')
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) =>
       null;
+
+  MarkdownStyleSheet? buildStylesheet(md.Element element, MarkdownStyleSheet styleSheet) => null;
 }
 
 /// Enum to specify which theme being used when creating [MarkdownStyleSheet]
