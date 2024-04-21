@@ -39,10 +39,11 @@ bool _isBlockTag(String? tag) => _kBlockTags.contains(tag);
 bool _isListTag(String tag) => _kListTags.contains(tag);
 
 class _BlockElement {
-  _BlockElement(this.tag);
+  _BlockElement(this.tag, this.styleSheet);
 
   final String? tag;
   final List<Widget> children = <Widget>[];
+  final MarkdownStyleSheet styleSheet;
 
   int nextListIndex = 0;
 }
@@ -203,7 +204,7 @@ class MarkdownBuilder implements md.NodeVisitor {
       }
     });
 
-    _blocks.add(_BlockElement(null));
+    _blocks.add(_BlockElement(null, styleSheet));
 
     for (final md.Node node in nodes) {
       assert(_blocks.length == 1);
@@ -258,7 +259,12 @@ class MarkdownBuilder implements md.NodeVisitor {
           children: <Widget>[],
         ));
       }
-      final _BlockElement bElement = _BlockElement(tag);
+      final _BlockElement bElement = _BlockElement(
+        tag,
+        _blocks.last.styleSheet.merge(
+          builders[tag]?.buildStylesheet(element, styleSheet),
+        ),
+      );
       if (start != null) {
         bElement.nextListIndex = start;
       }
@@ -678,7 +684,7 @@ class MarkdownBuilder implements md.NodeVisitor {
     if (_inlines.isEmpty) {
       _inlines.add(_InlineElement(
         tag,
-        style: styleSheet.styles[tag!],
+        style: (_blocks.last.styleSheet ?? styleSheet).styles[tag!],
       ));
     }
   }
