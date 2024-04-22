@@ -877,27 +877,27 @@ class MarkdownBuilder implements md.NodeVisitor {
   WrapAlignment _wrapAlignmentForBlockTag(String? blockTag) {
     switch (blockTag) {
       case 'p':
-        return styleSheet.textAlign;
+        return _blocks.last.styleSheet.textAlign ?? styleSheet.textAlign;
       case 'h1':
-        return styleSheet.h1Align;
+        return _blocks.last.styleSheet.h1Align ?? styleSheet.h1Align;
       case 'h2':
-        return styleSheet.h2Align;
+        return _blocks.last.styleSheet.h2Align ?? styleSheet.h2Align;
       case 'h3':
-        return styleSheet.h3Align;
+        return _blocks.last.styleSheet.h3Align ?? styleSheet.h3Align;
       case 'h4':
-        return styleSheet.h4Align;
+        return _blocks.last.styleSheet.h4Align ?? styleSheet.h4Align;
       case 'h5':
-        return styleSheet.h5Align;
+        return _blocks.last.styleSheet.h5Align ?? styleSheet.h5Align;
       case 'h6':
-        return styleSheet.h6Align;
+        return _blocks.last.styleSheet.h6Align ?? styleSheet.h6Align;
       case 'ul':
-        return styleSheet.unorderedListAlign;
+        return _blocks.last.styleSheet.unorderedListAlign ?? styleSheet.unorderedListAlign;
       case 'ol':
-        return styleSheet.orderedListAlign;
+        return _blocks.last.styleSheet.orderedListAlign ?? styleSheet.orderedListAlign;
       case 'blockquote':
-        return styleSheet.blockquoteAlign;
+        return _blocks.last.styleSheet.blockquoteAlign ?? styleSheet.blockquoteAlign;
       case 'pre':
-        return styleSheet.codeblockAlign;
+        return _blocks.last.styleSheet.codeblockAlign ?? styleSheet.codeblockAlign;
       case 'hr':
         break;
       case 'li':
