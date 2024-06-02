@@ -263,7 +263,7 @@ class MarkdownBuilder implements md.NodeVisitor {
       final _BlockElement bElement = _BlockElement(
         tag,
         _blocks.last.styleSheet.merge(
-          builders[tag]?.buildStylesheet(element, styleSheet),
+          builders[tag]?.buildStylesheet(element, _blocks.last.styleSheet),
         ),
       );
       if (start != null) {
@@ -358,6 +358,7 @@ class MarkdownBuilder implements md.NodeVisitor {
 
     Widget? child;
     if (_blocks.isNotEmpty && builders.containsKey(_blocks.last.tag)) {
+      // HEre the stylesheet can be missing for custom tags, check this out!
       child = builders[_blocks.last.tag!]!
           .visitText(text, styleSheet.styles[_blocks.last.tag!]);
     } else if (_blocks.last.tag == 'pre') {
